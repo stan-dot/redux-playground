@@ -1,12 +1,14 @@
+import { EntityId } from "@reduxjs/toolkit"
 import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { Spinner } from "../../components/Spinner"
 import { PostAuthor } from "./PostAuthor"
 import { ReactionButtons } from "./ReactionButtons"
 import { TimeAgo } from "./TimeAgo"
-import { fetchPosts, selectAllPosts } from "./postSlice"
-import { Spinner } from "../../components/Spinner"
+import { fetchPosts, selectPostById, selectPostIds } from "./postSlice"
 
-const PostExcerpt = ({ post }) => {
+let PostExcerpt = ({ postId }: { postId: EntityId }) => {
+  const post = useAppSelector((state) => selectPostById(state, postId))
   return (
     <article className="post-excerpt">
       <h3>{post.title}</h3>
@@ -25,7 +27,6 @@ const PostExcerpt = ({ post }) => {
 }
 
 export const PostsList = () => {
-  const posts = useAppSelector(selectAllPosts)
   const dispatch = useAppDispatch()
   const postStatus = useAppSelector((state) => state.posts.status)
   const error = useAppSelector((state) => state.posts.error)
@@ -35,19 +36,17 @@ export const PostsList = () => {
       dispatch(fetchPosts())
     }
   }, [postStatus, dispatch])
+  const orderedPostIds: EntityId[] = useAppSelector(selectPostIds)
 
   let content
   if (postStatus === "loading") {
     content = <Spinner text="loading..." />
   } else if (postStatus === "succeeded") {
-    const orderedPosts = posts.posts
-      .slice()
-      .sort((a, b) => b.date.localeCompare(a.date))
-    if (orderedPosts[0] === undefined) {
+    if (orderedPostIds[0] === undefined) {
       content = <p> undefined posts</p>
     } else {
-      console.log(orderedPosts)
-      content = orderedPosts.map((p) => <PostExcerpt key={p.id} post={p} />)
+      console.log(orderedPostIds)
+      content = orderedPostIds.map((p) => <PostExcerpt key={p} postId={p} />)
     }
   } else if (postStatus === "failed") {
     content = <div>{error}</div>

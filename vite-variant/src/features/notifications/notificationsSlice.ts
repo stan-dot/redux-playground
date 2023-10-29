@@ -49,4 +49,5 @@ export const { allNotificationsRead } = notificationsSlice.actions
 
 export default notificationsSlice.reducer
 
-export const selectAllNotifications = (state) => state.notifications
+export const { selectAll: selectAllNotifications } =
+  notificationsAdapter.getSelectors((state) => state.notifications)
