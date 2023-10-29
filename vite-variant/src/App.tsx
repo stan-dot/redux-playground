@@ -1,6 +1,10 @@
 import logo from "./logo.svg"
 import { Counter } from "./features/counter/Counter"
 import "./App.css"
+import { PostsList } from "./features/posts/PostsList"
+import { AddPostForm } from "./features/posts/AddPostForm"
+import { SinglePostPage } from "./features/posts/SinglePostPage"
+import { EditPostForm } from "./features/posts/EditPostForm"
 
 function App() {
   return (
@@ -50,6 +54,15 @@ function App() {
           </a>
         </span>
       </header>
+      <body>
+        <AddPostForm />
+        <PostsList />
+
+        <h3> ere single post page</h3>
+        <SinglePostPage postId={"1"} />
+        <h3> edit form</h3>
+        <EditPostForm postId={"2"} />
+      </body>
     </div>
   )
 }
