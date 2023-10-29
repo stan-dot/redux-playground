@@ -54,15 +54,15 @@ function App() {
           </a>
         </span>
       </header>
-      <body>
+      <div>
         <AddPostForm />
         <PostsList />
 
-        <h3> ere single post page</h3>
-        <SinglePostPage postId={"1"} />
-        <h3> edit form</h3>
-        <EditPostForm postId={"2"} />
-      </body>
+        {/* <h3> ere single post page</h3>
+        <SinglePostPage postId={"1"} /> */}
+        {/* <h3> edit form</h3>
+        <EditPostForm postId={"2"} /> */}
+      </div>
     </div>
   )
 }

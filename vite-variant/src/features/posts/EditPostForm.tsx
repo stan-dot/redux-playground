@@ -1,14 +1,12 @@
 import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 import { useAppSelector } from "../../app/hooks"
-import { postUpdated } from "./postSlice"
+import { postUpdated, selectPostById } from "./postSlice"
 
 export const EditPostForm = ({ postId }: { postId: string }) => {
   // const { postId } = match.params
 
-  const post = useAppSelector((state) =>
-    state.posts.find((post) => post.id === postId),
-  )!
+  const post = useAppSelector((state) => selectPostById(state, postId))!
   // NOTE must always be defined
 
   const [title, setTitle] = useState<string>(post.title)

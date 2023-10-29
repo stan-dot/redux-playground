@@ -1,11 +1,10 @@
 import { useAppSelector } from "../../app/hooks"
+import { selectPostById } from "./postSlice"
 
 export const SinglePostPage = ({ postId }: { postId: string }) => {
   // const { postId } = match.params
 
-  const post = useAppSelector((state) =>
-    state.posts.find((post) => post.id === postId),
-  )
+  const post = useAppSelector((state) => selectPostById(state, postId))
 
   if (!post) {
     return (
