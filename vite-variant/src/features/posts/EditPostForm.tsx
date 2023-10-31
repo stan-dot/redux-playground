@@ -1,29 +1,31 @@
-import React, { useState } from "react"
-import { useDispatch } from "react-redux"
-import { useAppSelector } from "../../app/hooks"
-import { postUpdated, selectPostById } from "./postSlice"
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useGetPostQuery, useEditPostMutation } from "../api/apiSlice";
 
 export const EditPostForm = ({ postId }: { postId: string }) => {
   // const { postId } = match.params
 
-  const post = useAppSelector((state) => selectPostById(state, postId))!
+  // const post = useAppSelector((state) => selectPostById(state, postId))!;
+  const { data: post } = useGetPostQuery(postId);
+  const [updatePost, { isLoading }] = useEditPostMutation();
   // NOTE must always be defined
 
-  const [title, setTitle] = useState<string>(post.title)
-  const [content, setContent] = useState<string>(post.content)
+  const [title, setTitle] = useState<string>(post.title);
+  const [content, setContent] = useState<string>(post.content);
 
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch();
 
   const onTitleChanged = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setTitle(e.target.value)
+    setTitle(e.target.value);
   const onContentChanged = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
-    setContent(e.target.value)
+    setContent(e.target.value);
 
   const onSavePostClicked = () => {
     if (title && content) {
-      dispatch(postUpdated({ id: postId, title, content }))
+      // dispatch(postUpdated({ id: postId, title, content }));
+      await updatePost({ id: postId, title, content });
     }
-  }
+  };
 
   return (
     <section>
@@ -50,5 +52,5 @@ export const EditPostForm = ({ postId }: { postId: string }) => {
         Save Post
       </button>
     </section>
-  )
-}
+  );
+};
